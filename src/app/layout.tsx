@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-
+import Navbar from '../components/Navbar'; // Adjust the import path as needed
 
 export const metadata: Metadata = {
   title: "SnapZoška",
@@ -16,6 +16,7 @@ export default function RootLayout({
     <html lang="sk">
       <body>
         {children}
+        <Navbar /> {/* Include the Navbar here */}
       </body>
     </html>
   );
