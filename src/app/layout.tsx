@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from '../components/Navbar'; // Adjust the import path as needed
+import Navbar from '../components/NavBar'; // Adjust the import path as needed
 
 export const metadata: Metadata = {
   title: "SnapZoška",
