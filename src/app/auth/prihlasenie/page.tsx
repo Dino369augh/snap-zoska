@@ -7,6 +7,7 @@ export const metadata = { title: "Prihlasenie | ZoškaSnap"};
 export default function SignIn() {
   return (
 
+    
       <Typography> Prihlasenie </Typography>
     
   );
