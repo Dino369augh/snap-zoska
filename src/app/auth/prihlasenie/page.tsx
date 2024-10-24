@@ -7,7 +7,7 @@ import { Button } from '@mui/material'; // Using Material-UI for a styled button
 const LoginPage = () => {
   const handleGoogleLogin = async () => {
     // Call the signIn function from next-auth with Google provider
-    const result = await signIn('google', {
+    await signIn('google', {
 
     });
   };
