@@ -8,16 +8,8 @@ const LoginPage = () => {
   const handleGoogleLogin = async () => {
     // Call the signIn function from next-auth with Google provider
     const result = await signIn('google', {
-      redirect: false, // Prevent automatic redirect
-      callbackUrl: '/dashboard', // URL to redirect to after successful login
-    });
 
-    // Check if login was successful
-    if (result?.ok) {
-      window.location.href = result.url || '/dashboard'; // Redirect manually if needed
-    } else {
-      console.error('Login failed');
-    }
+    });
   };
 
   return (
