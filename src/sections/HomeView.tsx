@@ -1,11 +1,11 @@
 
-"use client"; // Mark this as a client component
+"use client"; 
 
-import { useSession } from 'next-auth/react'; // Import the useSession hook
-import Typography from '@mui/material/Typography'; // Import Typography component
+import { useSession } from 'next-auth/react'; 
+import Typography from '@mui/material/Typography'; 
 
 export default function Home() {
-  const { data: session, status } = useSession(); // Use the session hook
+  const { data: session, status } = useSession(); 
 
 
   if (status === 'loading') {

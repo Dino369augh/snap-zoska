@@ -3,6 +3,8 @@
 
 import { useSession } from 'next-auth/react'; // Import the useSession hook
 import Typography from '@mui/material/Typography'; // Import Typography component
+import AuthHomeView from '../../sections/AuthHomeView'; // Import AuthHomeView component
+import NonAuthHomeView from '../../sections/NonAuthHomeView'; // Import NonAuthHomeView component
 
 export default function Home() {
   const { data: session, status } = useSession(); // Use the session hook
@@ -12,10 +14,10 @@ export default function Home() {
     return <Typography>Loading...</Typography>;
   }
 
-  // Render the welcome message based on session state
+  // Render the appropriate view based on session state
   return (
-    <Typography>
-      {session ? `Welcome, ${session.user?.name}` : 'Welcome guest'}
-    </Typography>
+    <>
+      {session ? <AuthHomeView /> : <NonAuthHomeView />}
+    </>
   );
 }
