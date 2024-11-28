@@ -2,9 +2,8 @@
 
 import { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@auth/prisma-adapter"
-import { prisma } from "./prisma"
-
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { prisma } from "./prisma";
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -16,13 +15,13 @@ export const authOptions: NextAuthOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/auth/prihlasenie',
-    signOut: '/auth/odhlasenie',
+    signIn: '/auth/prihlasenie', // Custom sign-in page
+    signOut: '/auth/odhlasenie', // Custom sign-out page
   },
   callbacks: {
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      // Redirect to home page after sign-in
-      return baseUrl || url; // baseUrl is automatically set from NEXTAUTH_URL in .env
+    async redirect({ baseUrl }: {baseUrl: string }) {
+      // Always redirect to /profil after sign-in
+      return baseUrl + '/profil'; // Redirecting to /profil page after sign-in
     },
   },
 };

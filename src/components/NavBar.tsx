@@ -12,28 +12,31 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LogoutIcon from '@mui/icons-material/Logout';
+import InfoIcon from '@mui/icons-material/Info'; // Icon for "O mne" (About Me)
+import GavelIcon from '@mui/icons-material/Gavel'; // Icon for "GDPR"
 
 // Define paths for unauthenticated users
 const unauthPaths = [
   { label: "Domov", icon: <HomeIcon />, path: '/' },
+  { label: "O mne", icon: <InfoIcon />, path: '/o-mne' }, // Add O mne (About Me)
+  { label: "GDPR", icon: <GavelIcon />, path: '/gdpr' }, // Add GDPR
   { label: "Prihlásenie", icon: <LoginIcon />, path: '/auth/prihlasenie' },
   { label: "Registrácia", icon: <AppRegistrationIcon />, path: '/auth/registracia' },
 ];
 
 // Define paths for authenticated users
 const authPaths = [
-  { label: "Domov", icon: <HomeIcon />, path: '/' },
-  { label: "Profily", icon: <PersonIcon />, path: '/profil' },
+  { label: "Profil", icon: <PersonIcon />, path: '/profil' },
   { label: "Príspevky", icon: <PostAddIcon />, path: '/prispevok' },
-  { label: "Odhlásenie", icon: <LogoutIcon />, path: '/auth/odhlasenie' }, // Correct path to logout
+  { label: "Odhlásenie", icon: <LogoutIcon />, path: '/auth/odhlasenie' }, 
 ];
 
 export default function Navbar() {
-  const { data: session } = useSession(); // Get session data
+  const { data: session } = useSession(); 
   const [value, setValue] = React.useState(0);
   const router = useRouter();
 
-  // Determine which paths to show based on session state
+
   const navItems = session ? authPaths : unauthPaths;
 
   return (
@@ -46,11 +49,11 @@ export default function Navbar() {
         }}
       >
         {navItems.map((item, index) => (
-          <BottomNavigationAction 
+          <BottomNavigationAction
             key={index}
-            label={item.label} 
-            icon={item.icon} 
-            onClick={() => router.push(item.path)} 
+            label={item.label}
+            icon={item.icon}
+            onClick={() => router.push(item.path)}
           />
         ))}
       </BottomNavigation>

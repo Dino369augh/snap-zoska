@@ -10,9 +10,8 @@ export default function AuthHomeView({ session }: { session: Session }) {
 
   return (
     <Container>
-      <Typography> Domovská stránka - prihlásený user</Typography>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Vitajte, {session?.user?.name || "užívateľ"}!
+        Profil: {session?.user?.name || "užívateľ"}!
       </Typography>
 
 
