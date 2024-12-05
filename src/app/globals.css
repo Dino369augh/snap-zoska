@@ -1,0 +1,7 @@
+/* src/globals.css */
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #fafafa; /* Matches theme background color */
+  }
+  

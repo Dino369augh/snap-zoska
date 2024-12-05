@@ -14,6 +14,10 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info'; // Icon for "O mne" (About Me)
 import GavelIcon from '@mui/icons-material/Gavel'; // Icon for "GDPR"
+import { IconButton } from '@mui/material'; // Import IconButton for dark mode toggle button
+import Brightness4Icon from '@mui/icons-material/Brightness4'; // Icon for dark mode
+import Brightness7Icon from '@mui/icons-material/Brightness7'; // Icon for light mode
+import { useTheme } from '@/context/ThemeContext'; // Import useTheme to access dark mode toggle
 
 // Define paths for unauthenticated users
 const unauthPaths = [
@@ -32,10 +36,12 @@ const authPaths = [
 ];
 
 export default function Navbar() {
-  const { data: session } = useSession(); 
+  const { data: session } = useSession();
   const [value, setValue] = React.useState(0);
   const router = useRouter();
 
+  // Get the theme and toggle function from the context
+  const { theme, toggleTheme } = useTheme();
 
   const navItems = session ? authPaths : unauthPaths;
 
@@ -47,6 +53,10 @@ export default function Navbar() {
         onChange={(event, newValue) => {
           setValue(newValue);
         }}
+        sx={{
+          backgroundColor: theme.background === "#121212" ? "#333333" : "#ffffff", // Change background color
+          color: theme.text, // Set the icon color based on the theme's text color
+        }}
       >
         {navItems.map((item, index) => (
           <BottomNavigationAction
@@ -54,9 +64,28 @@ export default function Navbar() {
             label={item.label}
             icon={item.icon}
             onClick={() => router.push(item.path)}
+            sx={{
+              color: theme.text, // Ensure icon color is updated
+            }}
           />
         ))}
       </BottomNavigation>
+
+      {/* Dark mode toggle icon button */}
+      <Box sx={{
+        position: 'absolute', 
+        bottom: 16, 
+        right: 16, 
+        zIndex: 1, // Ensures the button is above other elements
+      }}>
+        <IconButton 
+          color="primary" 
+          onClick={toggleTheme} 
+          sx={{ padding: '8px' }}
+        >
+          {theme.background === "#121212" ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+      </Box>
     </Box>
   );
 }

@@ -21,7 +21,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async redirect({ baseUrl }: {baseUrl: string }) {
       // Always redirect to /profil after sign-in
-      return baseUrl + '/profil'; // Redirecting to /profil page after sign-in
+      return baseUrl + '/prispevok'; // Redirecting to /profil page after sign-in
     },
   },
 };

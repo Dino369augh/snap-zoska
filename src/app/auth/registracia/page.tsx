@@ -1,70 +1,94 @@
-// src/app/auth/registracia/page.tsx
 "use client"; // This marks the component as a client component
 
-import { useState } from 'react';
+import { Button, Box, Link, Typography } from '@mui/material'; // Using Material-UI for a styled button
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation'; // Updated import for navigation
+import NextLink from 'next/link'; // Import Next.js Link component for routing
+import { useTheme } from '@/context/ThemeContext'; // Import the useTheme hook to access the current theme
 
-const RegistrationPage = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const router = useRouter(); // For navigation
+const LoginPage = () => {
+  const { theme } = useTheme(); // Access the current theme from the context
+  
+  const handleGoogleLogin = async () => {
+    // Call the signIn function from next-auth with Google provider
+    await signIn('google', {});
+  };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Here you would typically call an API to register the user
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const data = await response.json();
-
-    if (response.ok) {
-      // Registration was successful, you can sign in the user or redirect them
-      await signIn('credentials', {
-        redirect: false,
-        email,
-        password,
-      });
-      router.push('/dashboard'); // Redirect to the dashboard after successful registration
-    } else {
-      console.error('Registration failed', data);
-      // Optionally handle error feedback
-    }
+  const handleGitHubLogin = async () => {
+    // Call the signIn function from next-auth with GitHub provider
+    await signIn('github', {});
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Register</button>
-    </form>
+    <Box
+      sx={{
+        display: 'flex',            // Enable flexbox
+        justifyContent: 'center',   // Center horizontally
+        alignItems: 'center',       // Center vertically
+        minHeight: '100vh',          // Full height of the viewport
+        backgroundColor: theme.background, // Set the background color based on the theme
+      }}
+    >
+      <Box
+        sx={{
+          padding: '40px',
+          border: `1px solid ${theme.background === "#121212" ? '#444' : '#ccc'}`, // Border color based on dark/light theme
+          borderRadius: '8px',
+          backgroundColor: theme.background === "#121212" ? '#333' : '#fff',  // Change background of the box based on theme
+          boxShadow: 3,             // Add some shadow for better visual appearance
+          textAlign: 'center',      // Center the text inside the box
+          width: '100%',
+          maxWidth: '400px',        // Max width to keep it responsive
+        }}
+      >
+        <Typography variant="h4" sx={{ marginBottom: '20px', color: theme.text }}>Register</Typography>
+
+        {/* Redirect link to /register */}
+        <Box sx={{ marginBottom: '20px' }}>
+          <Typography variant="body2" color={theme.text}>
+            máte účet?{' '}
+            <Link
+              component={NextLink}
+              href="/auth/prihlasenie"
+              passHref
+              sx={{ textDecoration: 'none', color: '#1976d2' }}
+            >
+              Kliknite sem
+            </Link>
+          </Typography>
+        </Box>
+
+        {/* Google Login Button */}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleGoogleLogin}
+          sx={{
+            marginTop: '20px', // Space between buttons
+            width: '100%',      // Make the buttons take full width for a better look
+            backgroundColor: theme.background === "#121212" ? '#1a73e8' : '#1976d2', // Adjust button color based on theme
+            color: theme.background === "#121212" ? '#fff' : '#fff', // Button text color
+          }}
+        >
+          Register with Google
+        </Button>
+
+        {/* GitHub Login Button */}
+        <Button
+          variant="contained"
+          color="primary" // Keep the same color as the Google button
+          onClick={handleGitHubLogin}
+          sx={{
+            marginTop: '20px', // Space between buttons
+            width: '100%',      // Make the buttons take full width for a better look
+            backgroundColor: theme.background === "#121212" ? '#1a73e8' : '#1976d2', // Adjust button color based on theme
+            color: theme.background === "#121212" ? '#fff' : '#fff', // Button text color
+          }}
+        >
+          Register with GitHub
+        </Button>
+      </Box>
+    </Box>
   );
 };
 
-export default RegistrationPage;
+export default LoginPage;
