@@ -1,21 +1,29 @@
-"use client"; // This marks the component as a client component
+"use client";
 
 import { ReactNode } from "react";
-import { ThemeProvider } from "@/context/ThemeContext"; // Import the ThemeProvider
-import Navbar from "@/components/NavBar"; // Import Navbar component
-import AuthProvider from "@/components/AuthProvider"; // Assuming you have an AuthProvider
+import { ThemeProvider } from "@/context/ThemeProvider"; // Custom ThemeProvider
+import { CssBaseline } from "@mui/material"; // Reset CSS for consistent styling
+import Navbar from "@/components/NavBar";
+import AuthProvider from "@/components/AuthProvider";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="sk" style={{ height: '100%' }}>
-      <body style={{ height: '100%', margin: 0 }}>
-        <ThemeProvider> {/* Wrap your app with ThemeProvider */}
+    <html lang="sk">
+      <body style={{ margin: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <ThemeProvider> {/* Ensure ThemeProvider is wrapping everything */}
+          <CssBaseline /> {/* Reset CSS */}
           <AuthProvider>
-            <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-              <main style={{ flexGrow: 1, paddingBottom: '80px' }}> {/* Add padding bottom for Navbar height */}
-                {children} {/* Render children inside */}
+            <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+              <main
+                style={{
+                  flexGrow: 1,
+                  paddingBottom: "80px", // Prevent content from being obscured by Navbar
+                  overflowY: "auto", // Allow scrolling inside the main content area if necessary
+                }}
+              >
+                {children}
               </main>
-              <Navbar /> {/* Navbar component fixed at the bottom */}
+              <Navbar /> {/* Fixed Navbar at the bottom */}
             </div>
           </AuthProvider>
         </ThemeProvider>
