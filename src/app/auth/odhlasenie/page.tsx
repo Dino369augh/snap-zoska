@@ -20,13 +20,23 @@ export default function SignOut() {
       </Head>
       <div style={{ textAlign: 'center', marginTop: '20px' }}>
         <Typography variant="h4">Odhlásenie</Typography>
+        
         {session ? (
-          <Button variant="contained" color="primary" onClick={handleLogout}>
-            Odhlásiť sa
-          </Button>
+          <>
+            <Button variant="contained" color="primary" onClick={handleLogout}>
+              Odhlásiť sa
+            </Button>
+            <p>Dovidenia</p>
+          </>
         ) : (
           <Typography variant="body1">Nie ste prihlásený.</Typography>
         )}
+
+        {/* Example Link */}
+        <div>
+          <Typography variant="body2">
+          </Typography>
+        </div>
       </div>
     </>
   );

@@ -1,18 +1,20 @@
-"use client";
+"use client"; // Client-side rendering
 
-import { Button, Box, Link, Typography, Checkbox, FormControlLabel } from '@mui/material';
-import { signIn } from 'next-auth/react';
-import NextLink from 'next/link';
-import { useState } from 'react';
+import { Button, Typography, Checkbox, FormControlLabel, Alert } from "@mui/material";
+import { signIn } from "next-auth/react";
+import Head from "next/head"; // For client-side metadata
+import Link from "next/link"; // Correct import for Link
+import { useState } from "react";
 
-const RegisterPage = () => {
+export default function RegisterPage() {
   const [isAgreed, setIsAgreed] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // State for error message
 
   const handleGoogleLogin = async () => {
     if (isAgreed) {
       await signIn("google", {});
     } else {
-      alert("Musíte súhlasiť s GDPR a podmienkami služby, aby ste pokračovali.");
+      setErrorMessage("Musíte súhlasiť s GDPR a podmienkami služby, aby ste pokračovali.");
     }
   };
 
@@ -20,101 +22,75 @@ const RegisterPage = () => {
     if (isAgreed) {
       await signIn("github", {});
     } else {
-      alert("Musíte súhlasiť s GDPR a podmienkami služby, aby ste pokračovali.");
+      setErrorMessage("Musíte súhlasiť s GDPR a podmienkami služby, aby ste pokračovali.");
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-      }}
-    >
-      <Box
-        sx={{
-          padding: '40px',
-          border: '1px solid #ccc',
-          borderRadius: '8px',
-          textAlign: 'center',
-          width: '100%',
-          maxWidth: '400px',
-          boxShadow: 3,
-        }}
-      >
-        <Typography variant="h4" sx={{ marginBottom: '20px' }}>
+    <>
+      <Head>
+        <title>Registrácia | ZoškaSnap</title>
+      </Head>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <Typography variant="h4" gutterBottom>
           Registrácia
         </Typography>
 
-        <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2">
-            Máte už účet?{' '}
-            <Link
-              component={NextLink}
-              href="/auth/prihlasenie"
-              passHref
-              sx={{
-                textDecoration: 'none',
-                color: '#1976d2', // Set the color to blue like the GDPR and Terms of Service links
-                fontWeight: 'bold', // Make the text bold
-              }}
-            >
-              Kliknite sem
-            </Link>
-          </Typography>
-        </Box>
+        {/* Show Alert if there is an error message */}
+        {errorMessage && (
+          <Alert severity="error" sx={{ marginBottom: "20px" }}>
+            {errorMessage}
+          </Alert>
+        )}
 
         {/* GDPR Checkbox */}
-        <Box sx={{ marginBottom: '20px', textAlign: 'left' }}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={isAgreed}
-                onChange={(e) => setIsAgreed(e.target.checked)}
-                sx={{ color: 'text.primary' }} // Uses theme's text color
-              />
-            }
-            label={
-              <Typography variant="body2">
-                Súhlas s {' '}
-                <Link
-                  component={NextLink}
-                  href="/gdpr"
-                  passHref
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={isAgreed}
+              onChange={(e) => setIsAgreed(e.target.checked)}
+              sx={{ color: "text.primary" }} // Uses theme's text color
+            />
+          }
+          label={
+            <Typography variant="body2">
+              Súhlasím s{" "}
+              <Link href="/gdpr" passHref>
+                <Button
+                  variant="text"
                   sx={{
-                    textDecoration: 'none',
-                    color: '#1976d2',
-                    fontWeight: 'bold', // Make the GDPR text bold
+                    color: "#1976d2", // Blue color
+                    fontWeight: "bold", // Bold text
+                    padding: 0,
                   }}
                 >
                   GDPR
-                </Link>{' '}
-                a{' '}
-                <Link
-                  component={NextLink}
-                  href="/podmienky"
-                  passHref
+                </Button>
+              </Link>{" "}
+              a{" "}
+              <Link href="/podmienky" passHref>
+                <Button
+                  variant="text"
                   sx={{
-                    textDecoration: 'none',
-                    color: '#1976d2',
-                    fontWeight: 'bold', // Make the Podmienky text bold
+                    color: "#1976d2", // Blue color
+                    fontWeight: "bold", // Bold text
+                    padding: 0,
                   }}
                 >
-                  Podmienkami služby
-                </Link>
-              </Typography>
-            }
-          />
-        </Box>
+                  Podmienkami
+                </Button>
+              </Link>
+            </Typography>
+          }
+          sx={{ textAlign: "left" }}
+        />
 
         {/* Register Buttons */}
         <Button
           variant="contained"
           color="primary"
           onClick={handleGoogleLogin}
-          sx={{ marginTop: '20px', width: '100%' }}
+          sx={{ marginTop: "20px", width: "100%" }}
         >
           Registrovať sa cez Google
         </Button>
@@ -123,13 +99,29 @@ const RegisterPage = () => {
           variant="contained"
           color="primary"
           onClick={handleGitHubLogin}
-          sx={{ marginTop: '20px', width: '100%' }}
+          sx={{ marginTop: "20px", width: "100%" }}
         >
           Registrovať sa cez GitHub
         </Button>
-      </Box>
-    </Box>
-  );
-};
 
-export default RegisterPage;
+        <div style={{ marginTop: "20px" }}>
+          <Typography variant="body2">
+            Už máte účet?{" "}
+            <Link href="/auth/prihlasenie" passHref>
+              <Button
+                variant="text"
+                sx={{
+                  color: "#1976d2", // Blue color
+                  fontWeight: "bold", // Bold text
+                  padding: 0,
+                }}
+              >
+                Prihláste sa
+              </Button>
+            </Link>
+          </Typography>
+        </div>
+      </div>
+    </>
+  );
+}

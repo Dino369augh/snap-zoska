@@ -1,4 +1,5 @@
 "use client";
+import "./globals.css";
 
 import { ReactNode } from "react";
 import { ThemeProvider } from "@/context/ThemeProvider"; // Custom ThemeProvider

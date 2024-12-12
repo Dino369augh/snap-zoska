@@ -1,10 +1,11 @@
-"use client";
+"use client"; // Client-side rendering
 
-import { Button, Box, Link, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { signIn } from "next-auth/react";
-import NextLink from "next/link";
+import Head from "next/head"; // For client-side metadata
+import Link from "next/link"; // Correct import for Link
 
-const LoginPage = () => {
+export default function LoginPage() {
   const handleGoogleLogin = async () => {
     await signIn("google", {});
   };
@@ -14,48 +15,16 @@ const LoginPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
-    >
-      <Box
-        sx={{
-          padding: "40px",
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          textAlign: "center",
-          width: "100%",
-          maxWidth: "400px",
-          boxShadow: 3,
-        }}
-      >
-        <Typography variant="h4" sx={{ marginBottom: "20px" }}>
+    <>
+      <Head>
+        <title>Prihlásenie | ZoškaSnap</title>
+      </Head>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <Typography variant="h4" gutterBottom>
           Prihlásenie
         </Typography>
 
-        <Box sx={{ marginBottom: "20px" }}>
-          <Typography variant="body2">
-            Nemáte účet?{" "}
-            <Link
-              component={NextLink}
-              href="/auth/registracia"
-              passHref
-              sx={{
-                textDecoration: "none",
-                color: "#1976d2", // Blue color like GDPR link
-                fontWeight: "bold", // Make the text bold
-              }}
-            >
-              Kliknite sem
-            </Link>
-          </Typography>
-        </Box>
-
-        {/* Google Login Button */}
+        {/* Login Buttons */}
         <Button
           variant="contained"
           color="primary"
@@ -65,7 +34,6 @@ const LoginPage = () => {
           Prihlásiť sa cez Google
         </Button>
 
-        {/* GitHub Login Button */}
         <Button
           variant="contained"
           color="primary"
@@ -74,9 +42,25 @@ const LoginPage = () => {
         >
           Prihlásiť sa cez GitHub
         </Button>
-      </Box>
-    </Box>
-  );
-};
 
-export default LoginPage;
+        <div style={{ marginTop: "20px" }}>
+          <Typography variant="body2">
+            Nemáte účet?{" "}
+            <Link href="/auth/registracia" passHref>
+              <Button
+                variant="text"
+                sx={{
+                  color: "#1976d2", // Blue color
+                  fontWeight: "bold", // Bold text
+                  padding: 0,
+                }}
+              >
+                Zaregistrujte sa
+              </Button>
+            </Link>
+          </Typography>
+        </div>
+      </div>
+    </>
+  );
+}

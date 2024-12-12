@@ -26,6 +26,7 @@ const unauthPaths = [
 
 // Define paths for authenticated users
 const authPaths = [
+  { label: "Domov", icon: <HomeIcon />, path: '/' },
   { label: "Profil", icon: <PersonIcon />, path: '/profil' },
   { label: "Príspevky", icon: <PostAddIcon />, path: '/prispevok' },
   { label: "Odhlásenie", icon: <LogoutIcon />, path: '/auth/odhlasenie' },
