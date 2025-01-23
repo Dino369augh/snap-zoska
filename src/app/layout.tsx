@@ -10,7 +10,7 @@ import AuthProvider from "@/components/AuthProvider";
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="sk">
-      <body style={{ margin: 0, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+      <body style={{ margin: 0, display: "flex", flexDirection: "column", overflowY: "auto" }}>
         <ThemeProvider> {/* Ensure ThemeProvider is wrapping everything */}
           <CssBaseline /> {/* Reset CSS */}
           <AuthProvider>
