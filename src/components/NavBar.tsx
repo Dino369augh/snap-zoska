@@ -11,7 +11,6 @@ import LoginIcon from '@mui/icons-material/Login';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import LogoutIcon from '@mui/icons-material/Logout';
 import InfoIcon from '@mui/icons-material/Info'; // Icon for "O mne" (About Me)
-import { IconButton } from '@mui/material'; // Import IconButton for dark mode toggle button
 import Brightness4Icon from '@mui/icons-material/Brightness4'; // Icon for dark mode
 import Brightness7Icon from '@mui/icons-material/Brightness7'; // Icon for light mode
 import { useTheme } from '@/context/ThemeContext'; // Import useTheme to access dark mode toggle
@@ -74,23 +73,23 @@ export default function Navbar() {
             }}
           />
         ))}
-      </BottomNavigation>
 
-      {/* Dark mode toggle icon button */}
-      <Box sx={{
-        position: 'absolute',
-        bottom: 16,
-        right: 16,
-        zIndex: 1, // Ensures the button is above other elements
-      }}>
-        <IconButton
-          color="primary"
+        {/* Dark Mode Toggle Icon */}
+        <BottomNavigationAction
+          label=""
+          icon={theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
           onClick={toggleTheme}
-          sx={{ padding: '8px' }}
-        >
-          {theme.palette.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-        </IconButton>
-      </Box>
+          sx={{
+            color: theme.palette.text.primary, // Same color logic as other icons
+            '&.Mui-selected': {
+              color: theme.palette.primary.main, // Highlighted color for dark mode button
+            },
+            '&:hover': {
+              color: theme.palette.primary.main, // Highlight icon on hover
+            }
+          }}
+        />
+      </BottomNavigation>
     </Box>
   );
 }

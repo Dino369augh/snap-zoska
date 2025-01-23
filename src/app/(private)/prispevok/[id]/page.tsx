@@ -64,6 +64,8 @@ export default async function PostDetail({
             margin: '0 auto',
             borderRadius: '8px',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            objectFit: 'contain', // Ensures the image fits without stretching
+            maxHeight: '500px', // Optionally limit the height to avoid very large images
           }}
         />
       </Box>
