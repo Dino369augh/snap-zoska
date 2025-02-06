@@ -37,30 +37,30 @@ export default async function PostDetail({
   console.log("Received params:", params);
 
   if (!params.id) {
-    return <Typography variant="h5">Post ID is missing.</Typography>;
+    return <Typography variant="h5" sx={{ textAlign: 'center' }}>Post ID is missing.</Typography>;
   }
 
   // Fetch the post details by the given postId (id)
   const post = await getPostDetails(params.id);
 
   if (!post) {
-    return <Typography variant="h5">Post not found</Typography>;
+    return <Typography variant="h5" sx={{ textAlign: 'center' }}>Post not found</Typography>;
   }
 
   return (
     <>
-      <Typography variant="h4" sx={{ textAlign: 'center', mb: 2 }}>
+      <Typography variant="h4" sx={{ textAlign: 'center', mb: 4, fontWeight: 600 }}>
         Detail príspevku
       </Typography>
 
       {/* Post Image */}
-      <Box sx={{ textAlign: 'center', mb: 3 }}>
+      <Box sx={{ textAlign: 'center', mb: 4 }}>
         <CardMedia
           component="img"
           image={post.imageUrl || 'default-image.jpg'} // Replace with your default image if the post doesn't have an image
           alt={post.caption || 'Príspevok bez popisu'}
           sx={{
-            maxWidth: '80%', // Adjust size as necessary
+            maxWidth: '90%', // Adjust size as necessary
             margin: '0 auto',
             borderRadius: '8px',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
@@ -71,20 +71,22 @@ export default async function PostDetail({
       </Box>
 
       {/* Post Content */}
-      <Box sx={{ textAlign: 'center', mb: 2 }}>
-        <Typography variant="h5">Titulok: {post.caption}</Typography>
-        <Typography variant="body1" sx={{ mt: 1 }}>
-          {post.createdAt.toString()}
+      <Box sx={{ textAlign: 'center', mb: 4 }}>
+        <Typography variant="h5" sx={{ fontWeight: 500 }}>
+          Titulok: {post.caption || 'No Caption Available'}
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+        <Typography variant="body1" sx={{ mt: 2, fontStyle: 'italic' }}>
+          {new Date(post.createdAt).toLocaleDateString()} {/* Format the date for readability */}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
           Autor: {post.user.name || 'Neznámy používateľ'}
         </Typography>
       </Box>
 
       {/* Go back button */}
-      <Box sx={{ textAlign: 'center', mt: 3 }}>
+      <Box sx={{ textAlign: 'center', mt: 5 }}>
         <Link href="/prispevok">
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" sx={{ padding: '10px 20px' }}>
             Späť na príspevky
           </Button>
         </Link>

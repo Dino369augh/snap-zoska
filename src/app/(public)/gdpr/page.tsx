@@ -8,7 +8,7 @@ export default function GDPR() {
 
   // Function to handle "Go Back" button
   const handleGoBack = () => {
-    router.push("/auth/registracia");
+    router.back(); // Goes to the previous page in history
   };
 
   return (
@@ -38,7 +38,7 @@ export default function GDPR() {
           onClick={handleGoBack}
           sx={{ padding: "10px 20px", textTransform: "none" }}
         >
-          Späť na registráciu
+          Späť na predchádzajúcu stránku
         </Button>
       </Box>
     </Container>

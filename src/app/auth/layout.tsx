@@ -10,8 +10,10 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        minHeight: "100vh",
-        padding: "20px", // added padding around the layout to avoid full-width display
+        height: "100dvh", // Uses dynamic viewport height to prevent overflow issues
+        padding: 0, // Removes extra spacing that might cause scrolling
+        margin: 0, // Ensures no extra margins
+        overflow: "hidden", // Hides any potential overflow causing a scrollbar
       }}
     >
       <Box
@@ -23,9 +25,10 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
           width: "100%",
           maxWidth: "400px",
           boxShadow: 3,
+          backgroundColor: "background.paper",
         }}
       >
-        {children}  {/* Children will be injected here */}
+        {children} {/* Children will be injected here */}
       </Box>
     </Box>
   );

@@ -8,7 +8,7 @@ export default function TermsConditions() {
 
   // Function to handle "Go Back" button
   const handleGoBack = () => {
-    router.push("/auth/registracia");
+    router.back(); // Goes to the previous page in history
   };
 
   return (

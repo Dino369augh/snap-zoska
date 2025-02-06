@@ -52,6 +52,9 @@ export default function Navbar() {
         sx={{
           backgroundColor: theme.palette.mode === 'dark' ? "#333333" : "#ffffff", // Dark mode: grey background, Light mode: white background
           color: theme.palette.text.primary, // Set the icon color based on the theme's text color
+          display: 'flex',
+          justifyContent: 'center', // Center the icons
+          position: 'relative', // Needed for absolute positioning of the dark mode icon
         }}
       >
         {navItems.map((item, index) => (
@@ -86,7 +89,12 @@ export default function Navbar() {
             },
             '&:hover': {
               color: theme.palette.primary.main, // Highlight icon on hover
-            }
+            },
+            marginLeft: 'auto', // Push the dark mode icon to the right
+            position: 'absolute', // Position it absolutely within the BottomNavigation
+            right: 0, // Align it to the right
+            top: '50%', // Position it vertically centered
+            transform: 'translateY(-50%)', // Correct vertical centering
           }}
         />
       </BottomNavigation>

@@ -45,19 +45,37 @@ const PostList = () => {
   }, []);
 
   return (
-    <Container sx={{ mt: 4 }}>
+    <Container
+      sx={{
+        mt: 4,
+        display: "flex",
+        flexDirection: "column",
+        flexGrow: 1, // Ensures container takes available space
+        height: "calc(100vh - 80px)", // Set height to viewport height minus padding
+        paddingBottom: "80px", // Add padding to prevent navbar overlap
+      }}
+    >
       <Typography variant="h4" sx={{ mb: 3 }}>
         Zoznam Príspevkov
       </Typography>
       <Grid container spacing={2}>
         {posts.map((post) => (
-          <Grid item xs={12} sm={6} md={4} key={post.id}>
+          <Grid item xs={12} key={post.id}>
             {/* Wrap the Card in a Link to make it clickable */}
             <Link href={`/prispevok/${post.id}`} passHref>
-              <Card sx={{ cursor: "pointer" }}>
+              <Card
+                sx={{
+                  cursor: "pointer",
+                  transition: "all 0.3s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.02)", // Subtle enlarge effect
+                    boxShadow: 6, // Adds depth on hover
+                  },
+                }}
+              >
                 <CardMedia
                   component="img"
-                  height="140"
+                  height="250" // Adjust height for better visibility
                   image={post.imageUrl}
                   alt={post.caption || "Príspevok bez popisu"}
                 />
