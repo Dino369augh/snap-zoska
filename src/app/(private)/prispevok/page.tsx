@@ -50,9 +50,9 @@ const PostList = () => {
         mt: 4,
         display: "flex",
         flexDirection: "column",
-        flexGrow: 1, // Ensures container takes available space
-        height: "calc(100vh - 80px)", // Set height to viewport height minus padding
-        paddingBottom: "80px", // Add padding to prevent navbar overlap
+        flexGrow: 1,
+        height: "calc(100vh - 80px)",
+        paddingBottom: "80px",
       }}
     >
       <Typography variant="h4" sx={{ mb: 3 }}>
@@ -61,26 +61,35 @@ const PostList = () => {
       <Grid container spacing={2}>
         {posts.map((post) => (
           <Grid item xs={12} key={post.id}>
-            {/* Wrap the Card in a Link to make it clickable */}
-            <Link href={`/prispevok/${post.id}`} passHref>
+            <Link 
+              href={`/prispevok/${post.id}`}
+              style={{ textDecoration: 'none' }}
+            >
               <Card
                 sx={{
                   cursor: "pointer",
                   transition: "all 0.3s ease-in-out",
+                  maxWidth: '800px',
+                  margin: '0 auto',
                   "&:hover": {
-                    transform: "scale(1.02)", // Subtle enlarge effect
-                    boxShadow: 6, // Adds depth on hover
+                    transform: "scale(1.02)",
+                    boxShadow: 6,
                   },
                 }}
               >
                 <CardMedia
                   component="img"
-                  height="250" // Adjust height for better visibility
                   image={post.imageUrl}
                   alt={post.caption || "Príspevok bez popisu"}
+                  sx={{
+                    width: '100%',
+                    maxHeight: '600px',
+                    objectFit: 'contain',
+                    bgcolor: 'grey.100'
+                  }}
                 />
                 <CardContent>
-                  <Typography variant="body1">
+                  <Typography variant="body1" gutterBottom>
                     {post.caption || "Bez popisu"}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
