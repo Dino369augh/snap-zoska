@@ -1,46 +1,41 @@
-import { PrismaClient } from '@prisma/client'; // Import Prisma Client
+import { PrismaClient } from '@prisma/client';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
-import Link from 'next/link'; // Link to go back to the list page
+import Link from 'next/link';
 
 export const metadata = { title: "Detail príspevku | Zoska" };
 
 const prisma = new PrismaClient();
 
-// Server-side logic to fetch a specific post by its ID
 async function getPostDetails(postId: string) {
   if (!postId) {
     throw new Error('Post ID is required');
   }
 
   const post = await prisma.post.findUnique({
-    where: {
-      id: postId, // Use the postId to query the post
-    },
+    where: { id: postId },
     include: {
-      user: true, // Include user data
+      user: true,
+      images: {
+        take: 1 // Only get the first image
+      }
     },
   });
 
   return post;
 }
 
-// Component to display the post details
 export default async function PostDetail({
   params,
 }: {
-  params: { id: string };  // Update this to use 'id' instead of 'prispevokId'
+  params: { id: string };
 }) {
-  // Log params to verify the postId
-  console.log("Received params:", params);
-
   if (!params.id) {
     return <Typography variant="h5" sx={{ textAlign: 'center' }}>Post ID is missing.</Typography>;
   }
 
-  // Fetch the post details by the given postId (id)
   const post = await getPostDetails(params.id);
 
   if (!post) {
@@ -55,28 +50,30 @@ export default async function PostDetail({
 
       {/* Post Image */}
       <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <CardMedia
-          component="img"
-          image={post.imageUrl || 'default-image.jpg'} // Replace with your default image if the post doesn't have an image
-          alt={post.caption || 'Príspevok bez popisu'}
-          sx={{
-            maxWidth: '90%', // Adjust size as necessary
-            margin: '0 auto',
-            borderRadius: '8px',
-            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-            objectFit: 'contain', // Ensures the image fits without stretching
-            maxHeight: '500px', // Optionally limit the height to avoid very large images
-          }}
-        />
+        {post.images[0] && (
+          <CardMedia
+            component="img"
+            image={post.images[0].imageUrl || '/default-image.jpg'}
+            alt={post.caption || 'Príspevok bez popisu'}
+            sx={{
+              maxWidth: '90%',
+              margin: '0 auto',
+              borderRadius: '8px',
+              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+              objectFit: 'contain',
+              maxHeight: '500px',
+            }}
+          />
+        )}
       </Box>
 
       {/* Post Content */}
       <Box sx={{ textAlign: 'center', mb: 4 }}>
         <Typography variant="h5" sx={{ fontWeight: 500 }}>
-          Titulok: {post.caption || 'No Caption Available'}
+          {post.caption || 'No Caption Available'}
         </Typography>
         <Typography variant="body1" sx={{ mt: 2, fontStyle: 'italic' }}>
-          {new Date(post.createdAt).toLocaleDateString()} {/* Format the date for readability */}
+          {new Date(post.createdAt).toLocaleDateString()}
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
           Autor: {post.user.name || 'Neznámy používateľ'}

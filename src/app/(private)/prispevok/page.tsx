@@ -1,31 +1,23 @@
 "use client";
 
-// React imports
 import { useEffect, useState } from "react";
-import Link from "next/link"; // Import Link from Next.js
+import Link from "next/link";
+import { Container, Typography, Grid, Card, CardMedia, CardContent } from "@mui/material";
+import { fetchPosts } from "@/app/actions/posts";
 
-// MUI imports
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-
-// Assuming the fetchPosts function is defined to fetch the posts data
-import { fetchPosts } from "@/app/actions/posts"; // Update this path based on your project structure
-
-// Post interface
+// Updated Post interface to match Prisma schema
 interface Post {
   id: string;
   userId: string;
-  imageUrl: string;
-  caption?: string | null;
+  caption: string | null;
   createdAt: Date;
   updatedAt: Date;
   user: {
     name: string | null;
   };
+  images: {
+    imageUrl: string;
+  }[];
 }
 
 const PostList = () => {
@@ -34,7 +26,7 @@ const PostList = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const fetchedPosts: Post[] = await fetchPosts();
+        const fetchedPosts = await fetchPosts();
         setPosts(fetchedPosts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
@@ -77,17 +69,19 @@ const PostList = () => {
                   },
                 }}
               >
-                <CardMedia
-                  component="img"
-                  image={post.imageUrl}
-                  alt={post.caption || "Príspevok bez popisu"}
-                  sx={{
-                    width: '100%',
-                    maxHeight: '600px',
-                    objectFit: 'contain',
-                    bgcolor: 'grey.100'
-                  }}
-                />
+                {post.images[0] && (
+                  <CardMedia
+                    component="img"
+                    image={post.images[0].imageUrl}
+                    alt={post.caption || "Príspevok bez popisu"}
+                    sx={{
+                      width: '100%',
+                      maxHeight: '600px',
+                      objectFit: 'contain',
+                      bgcolor: 'grey.100'
+                    }}
+                  />
+                )}
                 <CardContent>
                   <Typography variant="body1" gutterBottom>
                     {post.caption || "Bez popisu"}

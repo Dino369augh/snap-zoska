@@ -1,32 +1,21 @@
-// 
-
 "use client";
 
-// React imports
 import { useEffect, useState } from "react";
-
-// MUI imports
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-
-// Server action import
+import { Container, Typography, Grid, Card, CardMedia, CardContent } from "@mui/material";
 import { fetchPosts } from "@/app/actions/posts";
 
-// Post interface
 interface Post {
   id: string;
   userId: string;
-  imageUrl: string;
   caption?: string | null;
-  createdAt: Date; // Adjusted to match fetched data type
-  updatedAt: Date; // Adjusted to match fetched data type
+  createdAt: Date;
+  updatedAt: Date;
   user: {
     name: string | null;
   };
+  images: {
+    imageUrl: string;
+  }[];
 }
 
 const PostsView = () => {
@@ -35,7 +24,7 @@ const PostsView = () => {
   useEffect(() => {
     const loadPosts = async () => {
       try {
-        const fetchedPosts: Post[] = await fetchPosts();
+        const fetchedPosts = await fetchPosts();
         setPosts(fetchedPosts);
       } catch (error) {
         console.error("Failed to fetch posts:", error);
@@ -54,14 +43,18 @@ const PostsView = () => {
         {posts.map((post) => (
           <Grid item xs={12} sm={6} md={4} key={post.id}>
             <Card>
-              <CardMedia
-                component="img"
-                height="140"
-                image={post.imageUrl}
-                alt={post.caption || "Príspevok bez popisu"}
-              />
+              {post.images[0] && (
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={post.images[0].imageUrl}
+                  alt={post.caption || "Príspevok bez popisu"}
+                />
+              )}
               <CardContent>
-                <Typography variant="body1">{post.caption || "Bez popisu"}</Typography>
+                <Typography variant="body1">
+                  {post.caption || "Bez popisu"}
+                </Typography>
                 <Typography variant="body2" color="text.secondary">
                   {post.user.name || "Neznámy používateľ"}
                 </Typography>

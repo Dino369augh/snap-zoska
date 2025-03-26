@@ -1,3 +1,4 @@
+// src/app/actions/profile.ts
 'use server';
 
 import { db } from "@/lib/db";
@@ -16,9 +17,14 @@ export async function getUserProfile(userId: string) {
         posts: {
           select: {
             id: true,
-            imageUrl: true,
             caption: true,
             createdAt: true,
+            images: {
+              select: {
+                imageUrl: true
+              },
+              take: 1 // Get first image only
+            }
           },
           orderBy: {
             createdAt: 'desc'
@@ -33,9 +39,20 @@ export async function getUserProfile(userId: string) {
       },
     });
 
-    return user;
+    if (!user) return null;
+
+    // Transform posts to include imageUrl directly
+    const transformedUser = {
+      ...user,
+      posts: user.posts.map(post => ({
+        ...post,
+        imageUrl: post.images[0]?.imageUrl || '/default-image.jpg'
+      }))
+    };
+
+    return transformedUser;
   } catch (error) {
     console.error('Error fetching user profile:', error);
     return null;
   }
-} 
+}

@@ -1,6 +1,6 @@
 'use server';
 
-import { prisma } from "@/app/api/auth/[...nextauth]/prisma";
+import { prisma } from "@/app/api/auth/prisma/prisma";
 
 export async function searchUsers(query: string) {
   if (!query) {
